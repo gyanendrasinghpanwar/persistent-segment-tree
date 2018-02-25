@@ -1,1 +1,57 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+ll array[1<<16];
+ll tree[1<<18];
+
+void build(ll node,ll a,ll b)
+{
+	if(a>b)
+	return;
+	if(a==b){
+	tree[node]=array[a];        //cout<<tree[node]<<"     "<<node<<endl;
+	return;
+    }
+	
+	build(node*2,a,(a+b)/2);
+	build(node*2+1,1+(a+b)/2,b);
+	
+	tree[node]=tree[node*2]+tree[node*2+1];        //cout<<tree[node]<<"     "<<node<<endl;
+}
+
+ll query(ll node,ll a,ll b,ll i,ll j)
+{
+	if(a>b || i>b || j<a)
+	return 0;
+	
+	if(a>=i && b<=j)
+	return tree[node];
+	
+	ll q1=query(node*2,a,(a+b)/2,i,j);
+	ll q2=query(1+node*2,1+(a+b)/2,b,i,j);
+	
+	ll ans = q1+q2; 
+	return(ans);  //return final answer;
+}
+
+int main()
+{
+	ll n;cout<<"enter the no of element in tha array : ";
+	cin>>n;
+	for(ll i=0;i<n;i++)
+	cin>>array[i];
+	
+	build(1,0,n-1);
+	
+	ll q;cout<<"enter the query no : ";
+	cin>>q;
+	while(q--){
+	cout<<"enter the range of index where u wish to find sum of no. "<<endl;
+	ll i,j;
+	cin>>i>>j;
+	cout<<"ans is "<<query(1,0,n-1,i,j)<<endl;
+    }
+	
+}
+
 
