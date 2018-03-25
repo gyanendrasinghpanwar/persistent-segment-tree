@@ -26,6 +26,31 @@
         };
          
         Tree tree[4*N];
+        //Just for explanation
+        /*    Tree merge(Tree t1,Tree t2){
+      Tree t;
+     //Note one thing, on combining 2 nodes, frequency of only element of t1 and first element of t2 may change (Consider [1,2,3,3] and [3,3,1,2]).
+      if(t1.msn==t2.mpn){
+        t.mf=MAX(t1.mf,t2.mf,t1.msf+t2.mpf);//Say t1 is storing data over range [1,2,3,3] and t2 over [3,3,4,2]. On combining these 2 ranges, the highest
+    //frequency we get is of 3, which is nothing but "Frequency of last element of left node+ Freq of first element of right node" (if the elements are equal).
+     
+        if(t1.mpn==t1.msn) t.mpf=t1.msf+t2.mpf;//Case when t1 is a range filled with same element. Eg- t1=[2,2,2,2] and t2=[2,3,4,4]
+        else t.mpf=t1.mpf;
+     
+        if(t2.mpn==t2.msn) t.msf=t1.msf+t2.mpf;//Same as above, with t2 having same elements this time.
+        else t.msf=t2.msf;
+      }
+      else{
+        t.mf=max(t1.mf,t2.mf);//First element of t2!=last element of range t1. So, the frequencies of all elements remain same.
+        t.mpf=t1.mpf;//Self-Explanatory
+        t.msf=t2.msf;
+      }
+     
+      t.mpn=t1.mpn; //The first element of combined range will be from t1, last element of combined range from t2.
+      t.msn=t2.msn;
+     
+      return t;
+    }  */
          
         Tree merge(Tree t1,Tree t2){
           Tree t;
