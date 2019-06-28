@@ -1,0 +1,97 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define fr(i,n) for(i=0;i<n;i++)
+#define vl vector<ll>
+#define vll vector<ll,ll>
+#define vpl vector< pair<ll,ll> >
+#define pb push_back
+#define ft first
+#define sd second
+#define bn begin()
+#define ed end()
+// Author gyanendra singh panwar :
+// it can be done much easier without segment tree .
+
+long arr[10000000];
+long tree[10000000];
+
+void build(long node,long a,long b)
+{
+	if(a>b)
+	return;
+	if(a==b){
+	tree[node]=arr[a];        //cout<<tree[node]<<"     "<<node<<endl;
+	return;
+    }
+	
+	build(node*2,a,(a+b)/2);
+	build(node*2+1,1+(a+b)/2,b);
+	
+	tree[node]=__gcd( tree[node*2] , tree[node*2+1] );        //cout<<tree[node]<<"     "<<node<<endl;
+}
+
+void update(long node,long a,long b, long i, long j,long value)
+{
+	if(a>b || b<i || a>j)
+	return;
+	if(a==b){
+	tree[node]=value;
+	//cout<<node<<"  and "<<tree[node];
+	return;
+    }
+	
+	update(node*2,a,(a+b)/2,i,j,value);    //update left child;
+	update(node*2+1,1+(a+b)/2,b,i,j,value);   //update right child;
+	
+	tree[node]=__gcd( tree[node*2] , tree[node*2+1] ); 
+}
+
+int main()
+{
+	ios_base::sync_with_stdio(NULL);
+    cin.tie(NULL);
+    int t;
+    cin>>t;
+    while(t--)
+    {
+    	long n,x,i=0,sz=0,sum=0,psum=0,value=0;
+    	cin>>n;
+    	
+    	set<long> s;
+    	set<long> :: iterator itr;
+    	
+    	fr(i,n)
+    	{
+    		cin>>x;
+    		s.insert(x);
+		}
+    	
+    	for(itr=s.bn;itr!=s.ed;itr++)
+    	arr[sz++]=*itr;
+    	
+    	if(sz!=1){
+    	build(1,0,sz-1);
+    	
+    	
+    	value=arr[1];
+    	for(i=0;i<sz;i++)
+    	{
+    		update(1,0,sz-1,i,i,value); 
+    		psum=tree[1]+arr[i];
+			
+			if(psum>sum)
+			sum=psum;
+			
+			update(1,0,sz-1,i,i,arr[i]); 
+			value=arr[0];
+		}
+    	
+    	cout<<sum<<endl;
+        }
+        
+        else
+        cout<<(arr[0]*2)<<endl;
+	}
+}
+
